@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <form action="/movies/add" method="POST">
+
+        {% csrf_token %}
+
+        <input type="text" name="title" id="title" placeholder="Movie title">
+        <input type="number" name="year" id="year" placeholder="Movie year">
+        <input type="submit" value="Add">
+
+    </form>
+    
+
+</html>
