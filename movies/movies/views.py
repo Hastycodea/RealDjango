@@ -3,6 +3,9 @@ from django.shortcuts import render
 
 from .models import Movie
 
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+
 def movies(request):
     data = Movie.objects.all
     return render(request, 'movies/movies.html', { 'movies': data } )
@@ -34,4 +37,31 @@ def delete(request, id):
     movie.delete()
 
     return HttpResponseRedirect('/movies')
+
+def pdf_report_create(request):
+    movies = Movie.objects.all()
+
+    template_path = 'pdfReport.html'
+    context = {'movies':movies}
+
+    # Create a Django response object, and set content type to PDF
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="movies.pdf"'
+
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html,
+       dest=response,
+    #    link_callback=link_callback,  # defined above
+    )
+
+    # if error then show some funny view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+
+    return response
     
