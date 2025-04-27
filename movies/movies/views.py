@@ -1,5 +1,7 @@
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.template.loader import get_template
+from xhtml2pdf import pisa
 
 from .models import Movie
 
@@ -34,4 +36,31 @@ def delete(request, id):
     movie.delete()
 
     return HttpResponseRedirect('/movies')
+
+def pdf_report_create(request):
+    movies = Movie.objects.all
+
+    template_path = 'movies/pdfReport.html'
+    context = {'movies': movies}
+
+    # Create a Django response object, and set content type to PDF
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="report.pdf"'
+
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html,
+       dest=response,
+    #    link_callback=link_callback,  # defined above
+    )
+
+    # if error then show some funny view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+
+    return response
     

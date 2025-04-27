@@ -25,5 +25,6 @@ urlpatterns = [
     path('movies/<int:id>', views.detail),
     path('movies/add', views.add),
     path('movies/delete/<int:id>', views.delete),
+    path('create_pdf/', views.pdf_report_create, name='create_pdf')
 
 ]
