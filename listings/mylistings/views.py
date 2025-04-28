@@ -11,7 +11,7 @@ def my_listings(request):
     return render(request, 'my_listings.html')
 
 def render_pdf_view(request):
-    template_path = 'pdfListings.html'
+    template_path = 'my_listings.html'
     context = {}
 
     # Create a Django response object, and set content type to PDF
@@ -36,7 +36,7 @@ def render_pdf_view(request):
     return response
 
 def download_pdf(request):
-    template_path = 'pdfListings.html'
+    template_path = 'my_listings.html'
     context = {}
 
     # Create a Django response object, and set content type to PDF
@@ -59,3 +59,18 @@ def download_pdf(request):
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
 
     return response
+
+from django.views.generic.base import View
+from wkhtmltopdf.views import PDFTemplateResponse
+
+class MyPDFView(View):
+    template='my_listings.html'
+
+    def get(self, request):
+        response = PDFTemplateResponse(request=request,
+                                       template=self.template,
+                                       filename="hello.pdf",
+                                       show_content_in_browser=True,
+                                       cmd_options={'margin-top': 50,},
+                                       )
+        return response
