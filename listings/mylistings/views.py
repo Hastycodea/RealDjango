@@ -4,6 +4,8 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.views.generic.base import View
 from wkhtmltopdf.views import PDFTemplateResponse
+from django.views.generic import TemplateView
+from django_weasyprint import WeasyTemplateResponseMixin
 
 # Create your views here.
 def home(request):
@@ -85,3 +87,12 @@ class MyPDFDownload(View):
                                        cmd_options={'margin-top': 50,},
                                        )
         return response
+    
+# class MyPDFView(WeasyTemplateResponseMixin, TemplateView):
+#     template_name = 'my_listings.html'
+#     pdf_filename = 'my_document.pdf'
+    
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['data'] = "Some data for the template"
+#         return context

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mylistings',
     'wkhtmltopdf',
+    'django_weasyprint',
 ]
 
 MIDDLEWARE = [
