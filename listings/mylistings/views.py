@@ -2,6 +2,8 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.template.loader import get_template
 from xhtml2pdf import pisa
+from django.views.generic.base import View
+from wkhtmltopdf.views import PDFTemplateResponse
 
 # Create your views here.
 def home(request):
@@ -60,9 +62,6 @@ def download_pdf(request):
 
     return response
 
-from django.views.generic.base import View
-from wkhtmltopdf.views import PDFTemplateResponse
-
 class MyPDFView(View):
     template='my_listings.html'
 
@@ -71,6 +70,18 @@ class MyPDFView(View):
                                        template=self.template,
                                        filename="hello.pdf",
                                        show_content_in_browser=True,
+                                       cmd_options={'margin-top': 50,},
+                                       )
+        return response
+
+class MyPDFDownload(View):
+    template='my_listings.html'
+
+    def get(self, request):
+        response = PDFTemplateResponse(request=request,
+                                       template=self.template,
+                                       filename="hello.pdf",
+                                       show_content_in_browser=False,
                                        cmd_options={'margin-top': 50,},
                                        )
         return response
