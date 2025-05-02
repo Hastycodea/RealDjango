@@ -70,7 +70,7 @@ class MyPDFView(View):
     def get(self, request):
         response = PDFTemplateResponse(request=request,
                                        template=self.template,
-                                       filename="hello.pdf",
+                                       filename="listings.pdf",
                                        show_content_in_browser=True,
                                        cmd_options={'margin-top': 50,},
                                        )
@@ -82,7 +82,7 @@ class MyPDFDownload(View):
     def get(self, request):
         response = PDFTemplateResponse(request=request,
                                        template=self.template,
-                                       filename="hello.pdf",
+                                       filename="listings.pdf",
                                        show_content_in_browser=False,
                                        cmd_options={'margin-top': 50,},
                                        )
