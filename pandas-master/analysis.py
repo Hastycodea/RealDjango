@@ -92,4 +92,9 @@ poke.loc[poke['Total'] > 500, ['Legendary', 'Generation']] = ['Noma', '4']
 poke['Sum'] = 'Failed'
 poke.loc[poke['Total'] > 500, 'Sum'] = 'Passed'
 # print(poke.loc[poke['Total'] > 500])
-print(poke.head(5))
+# print(poke.describe())
+
+# To be Reviewed, .sum
+print( poke.groupby(['Type 1']).mean(numeric_only=True))
+
+# print( poke.groupby(['Type 1']).count() )
