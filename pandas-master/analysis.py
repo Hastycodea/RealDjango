@@ -1,4 +1,7 @@
+import matplotlib
 import pandas as pd
+import matplotlib.pyplot as plt
+matplotlib.use('TkAgg') 
 
 poke = pd.read_csv('pokemon_data.csv')
 
@@ -95,6 +98,21 @@ poke.loc[poke['Total'] > 500, 'Sum'] = 'Passed'
 # print(poke.describe())
 
 # To be Reviewed, .sum
-print( poke.groupby(['Type 1']).mean(numeric_only=True))
+# print( poke.groupby(['Type 1']).mean(numeric_only=True))
+
 
 # print( poke.groupby(['Type 1']).count() )
+# poke = pd.read_csv('pokemon_data.csv')
+# poke['Total'].hist()
+
+# print(poke.dtypes)
+
+
+pro_poke = poke.head()
+pro_poke.plot(x='Name', y='Speed')
+
+plt.show()
+
+
+# plt.show()
+
