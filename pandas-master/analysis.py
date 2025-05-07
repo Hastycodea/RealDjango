@@ -68,8 +68,8 @@ poke['Total'] = poke.iloc[:, 4:10].sum(axis=1)
 
 # positioning the total columns just after speed
 cols = list(poke.columns)
-print(cols)
-print(len(cols))
+# print(cols)
+# print(len(cols))
 # print(len(poke.columns))
 # print(poke.shape[ 1 ])
 poke = poke[cols[ 0:10 ] + [cols[-1]] + cols[10:12]]
@@ -78,10 +78,22 @@ poke = poke[cols[ 0:10 ] + [cols[-1]] + cols[10:12]]
 
 poke.to_csv('modified.csv', index=False)
 poke.to_csv('modified.txt', index=False, sep=('\t'))
-poke.to_csv('modified.pdf', index=False, sep='\t')
+# poke.to_csv('modified.pdf', index=False, sep='\t')
 
 # Filtering Data
 # print(poke.loc[( poke['Type 1'] == 'Grass' ) & (poke['Type 2'] == 'Poison')])
+
+# print(poke.head(2))
+# print(poke.loc[0])
+# print(poke.iloc[:, 2:8])
+# print( poke.columns)
+
+# print(poke.loc[:, 'Type 1'])
+# print(poke[[ 'Type 1' ]])
+
+# print(poke.loc[:, 'Type 1':'Total'])
+# print(type( poke['Type 2'] ))
+
 
 new_poke = poke.loc[( poke['Type 1'] == 'Grass' ) & (poke['Type 2'] == 'Poison')]
 # print(new_poke)
