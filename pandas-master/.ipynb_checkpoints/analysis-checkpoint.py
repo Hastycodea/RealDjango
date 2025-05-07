@@ -64,21 +64,14 @@ poke_tab = pd.read_csv('pokemon_data.txt', delimiter='\t')
 # print(poke.head(5))
 poke['Total'] = poke.iloc[:, 4:10].sum(axis=1)
 # print(poke.head(5))
-# print(poke.iloc[:, 4:10])
 
 # positioning the total columns just after speed
 cols = list(poke.columns)
-print(cols)
-print(len(cols))
-# print(len(poke.columns))
-# print(poke.shape[ 1 ])
 poke = poke[cols[ 0:10 ] + [cols[-1]] + cols[10:12]]
-# print(list(poke.columns))
 # print(poke.head(5))
 
 poke.to_csv('modified.csv', index=False)
 poke.to_csv('modified.txt', index=False, sep=('\t'))
-poke.to_csv('modified.pdf', index=False, sep='\t')
 
 # Filtering Data
 # print(poke.loc[( poke['Type 1'] == 'Grass' ) & (poke['Type 2'] == 'Poison')])
@@ -115,12 +108,10 @@ poke.loc[poke['Total'] > 500, 'Sum'] = 'Passed'
 # print(poke.dtypes)
 
 
-# pro_poke = poke.head()
-# pro_poke.plot(x='Name', y='Speed')
+pro_poke = poke.head()
+pro_poke.plot(x='Name', y='Speed')
 
-# plt.show()
-
-# print(poke['Total'])
+plt.show()
 
 
 # plt.show()
