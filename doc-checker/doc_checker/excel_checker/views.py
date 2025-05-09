@@ -5,7 +5,7 @@ from .forms import ExcelUploadForm
 from django.conf import settings
 import os
 
-REQUIRED_COLUMNS = ['Name', 'Age', 'Email', 'City']
+REQUIRED_COLUMNS = ['Tenant first name', 'Tenant last name', 'Tenant email', 'Tenant phone number', 'Tenant identification card', 'Tenant identification number']
 
 # Create your views here.
 def home(request):
