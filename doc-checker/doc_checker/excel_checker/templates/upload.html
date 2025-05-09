@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Excel File</title>
+    <style>
+        .drop-zone {
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            color: #666;
+            cursor: pointer;
+        }
+        .drop-zone.dragover {
+            background-color: #f0f8ff;
+        }
+        #file-input {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>Upload Excel File</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="drop-zone" id="drop-zone">
+            Drag and drop your Excel file here, or click to select
+            <br><small>(Only .xlsx and .xls files allowed)</small>
+        </div>
+
+        <input type="file" id="file-input" name="file" accept=".xlsx, .xls" required>
+        <br><br>
+        <button type="submit">Upload</button>
+    </form>
+
+    <script>
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        dropZone.addEventListener('dragover', e => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', e => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file && (file.name.endsWith('.xlsx') || file.name.endsWith('.xls'))) {
+                fileInput.files = e.dataTransfer.files;
+                dropZone.textContent = `Selected: ${file.name}`;
+            } else {
+                alert('Invalid file type. Please upload an Excel file (.xlsx or .xls).');
+            }
+        });
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                dropZone.textContent = `Selected: ${fileInput.files[0].name}`;
+            }
+        });
+    </script>
+</body>
+</html>
+

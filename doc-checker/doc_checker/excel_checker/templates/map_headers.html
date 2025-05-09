@@ -1,0 +1,14 @@
+<form method="post">
+  {% csrf_token %}
+  {% if error %}<p style="color:red">{{ error }}</p>{% endif %}
+  {% for col in required_columns %}
+    <label>{{ col }}</label>
+    <select name="{{ col }}">
+      <option value="">-- Select your column --</option>
+      {% for header in user_headers %}
+        <option value="{{ header }}">{{ header }}</option>
+      {% endfor %}
+    </select><br>
+  {% endfor %}
+  <button type="submit">Map & Validate</button>
+</form>

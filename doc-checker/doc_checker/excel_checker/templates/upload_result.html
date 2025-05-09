@@ -1,0 +1,5 @@
+{% if success %}
+  <p>Data accepted!</p>
+{% else %}
+  <p>Missing data found. <a href="/{{ error_file }}">Download error file</a></p>
+{% endif %}
