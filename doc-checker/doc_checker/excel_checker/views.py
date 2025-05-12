@@ -55,12 +55,16 @@ def map_headers(request):
         missing_rows = df[df[REQUIRED_COLUMNS].isnull().any(axis=1)]
 
         if not missing_rows.empty:
-            missing_rows['Error'] = 'Missing required field(s)'
+            missing_rows['Position'] = missing_rows.index + 2
+            missing_rows['Missing Field(s)'] = missing_rows[REQUIRED_COLUMNS].apply(
+        lambda row: ', '.join([col for col in REQUIRED_COLUMNS if pd.isnull(row[col])]),
+        axis=1
+    )
+
             error_file = os.path.join(settings.MEDIA_ROOT, 'rows_with_missing_data.xlsx')
-            missing_rows.to_excel(error_file, index=True)
+            missing_rows.to_excel(error_file, index=False)
             return render(request, 'upload_result.html', {'error_file': 'media/rows_with_missing_data.xlsx'})
         else:
-            # Accept data — you can store or process it here
             cleaned_data = os.path.join(settings.MEDIA_ROOT, 'cleaned_data.xlsx')
             df.to_excel(cleaned_data, index=False)
             return render(request, 'upload_result.html', {'success': True, 'cleaned_data':'media/cleaned_data.xlsx' })
