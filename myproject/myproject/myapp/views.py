@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import Task
 from .forms import TaskForm 
@@ -16,6 +17,9 @@ def task_list(request):
         form = TaskForm()
     
     return render(request, 'task_list.html', {'tasks': tasks, 'form': form})
+
+def home(request):
+    return HttpResponse('Welcome home Kunta!') 
 
     
 

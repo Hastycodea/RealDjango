@@ -1,5 +1,6 @@
 {% if success %}
   <p>Data accepted!</p>
+  <p>Cleaned data <a href="/{{ cleaned_data }}">Download cleaned data</a></p>
 {% else %}
   <p>Missing data found. <a href="/{{ error_file }}">Download error file</a></p>
 {% endif %}

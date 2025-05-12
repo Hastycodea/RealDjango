@@ -47,7 +47,7 @@ missing_data.dropna(ignore_index=True)
 
 data = pd.read_excel('missingdata.xlsx')
 
-print(data.iloc[98])
+# print(data.iloc[98])
 
 #Printing the exact columns that are missing
 for index, row in data.iterrows():
@@ -55,4 +55,7 @@ for index, row in data.iterrows():
 
     if missing:
         print(f"Error: Missing data in row {index + 2}, columns: {', '.join(missing)}")
+
+# guru = ['Andreh', 'Brian', 'Andere', 'Junior', 'Andresh']
+# print(f"Names: {', '.join(guru)}")
 

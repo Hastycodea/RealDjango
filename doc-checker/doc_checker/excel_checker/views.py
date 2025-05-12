@@ -9,7 +9,7 @@ REQUIRED_COLUMNS = ['Tenant first name', 'Tenant last name', 'Tenant email', 'Te
 
 # Create your views here.
 def home(request):
-    return HttpResponse('Welcome Home Kunta Kinte!')
+    return render(request, 'home.html')
 
 def upload_excel(request):
     if request.method == 'POST':
@@ -18,8 +18,9 @@ def upload_excel(request):
             file = request.FILES['file']
             df = pd.read_excel(file)
 
-            # Save columns in session to show in the next step
+            # saving columns in session to be used in the next step
             request.session['temp_data'] = df.to_json()
+            # print(df.to_json())
             request.session['user_headers'] = list(df.columns)
             return redirect('map_headers')
     else:
@@ -27,6 +28,8 @@ def upload_excel(request):
     return render(request, 'upload.html', {'form': form})
 
 def map_headers(request):
+
+    # retrieves from the previous session,if not default to empty
     user_headers = request.session.get('user_headers', [])
     df = pd.read_json(request.session['temp_data'])
 
@@ -54,12 +57,13 @@ def map_headers(request):
         if not missing_rows.empty:
             missing_rows['Error'] = 'Missing required field(s)'
             error_file = os.path.join(settings.MEDIA_ROOT, 'rows_with_missing_data.xlsx')
-            missing_rows.to_excel(error_file, index=False)
+            missing_rows.to_excel(error_file, index=True)
             return render(request, 'upload_result.html', {'error_file': 'media/rows_with_missing_data.xlsx'})
         else:
             # Accept data — you can store or process it here
-            df.to_excel(os.path.join(settings.MEDIA_ROOT, 'cleaned_data.xlsx'), index=False)
-            return render(request, 'upload_result.html', {'success': True})
+            cleaned_data = os.path.join(settings.MEDIA_ROOT, 'cleaned_data.xlsx')
+            df.to_excel(cleaned_data, index=False)
+            return render(request, 'upload_result.html', {'success': True, 'cleaned_data':'media/cleaned_data.xlsx' })
 
     return render(request, 'map_headers.html', {
         'user_headers': user_headers,
