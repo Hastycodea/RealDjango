@@ -61,6 +61,9 @@ def map_headers(request):
         axis=1
     )
 
+            cols = list( missing_rows.columns )
+            missing_rows = missing_rows[[cols[-2]] + cols[0:6] + [cols[-1]]]
+
             error_file = os.path.join(settings.MEDIA_ROOT, 'rows_with_missing_data.xlsx')
             missing_rows.to_excel(error_file, index=False)
             return render(request, 'upload_result.html', {'error_file': 'media/rows_with_missing_data.xlsx'})
