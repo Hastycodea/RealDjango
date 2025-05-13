@@ -4,7 +4,7 @@
   {% if error %}<p style="color:red">{{ error }}</p>{% endif %}
   {% for col in required_columns %}
     <label>{{ col }}</label>
-    <select name="{{ col }}">
+    <select name="{{ col }}" class="unique-select">
       <option value="">-- Select your column --</option>
       {% for header in user_headers %}
         <option value="{{ header }}">{{ header }}</option>
@@ -13,3 +13,30 @@
   {% endfor %}
   <button type="submit">Map & Validate</button>
 </form>
+
+<script>
+  const selects = document.querySelectorAll('.unique-select');
+
+  function updateOptions() {
+    const selectedValues = Array.from(selects)
+      .map(select => select.value)
+      .filter(v => v !== '');
+
+    selects.forEach(select => {
+      const currentValue = select.value;
+      Array.from(select.options).forEach(option => {
+        if (option.value === '' || option.value === currentValue) {
+          option.disabled = false;
+        } else {
+          option.disabled = selectedValues.includes(option.value);
+        }
+      });
+    });
+  }
+
+  selects.forEach(select => {
+    select.addEventListener('change', updateOptions);
+  });
+
+  window.addEventListener('DOMContentLoaded', updateOptions);
+</script>

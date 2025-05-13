@@ -55,6 +55,8 @@ def map_headers(request):
         missing_rows = df[df[REQUIRED_COLUMNS].isnull().any(axis=1)]
 
         if not missing_rows.empty:
+            # missing_rows.loc[:, 'Position'] = missing_rows.index + 2
+            missing_rows = missing_rows.copy()
             missing_rows['Position'] = missing_rows.index + 2
             missing_rows['Missing Field(s)'] = missing_rows[REQUIRED_COLUMNS].apply(
         lambda row: ', '.join([col for col in REQUIRED_COLUMNS if pd.isnull(row[col])]),
